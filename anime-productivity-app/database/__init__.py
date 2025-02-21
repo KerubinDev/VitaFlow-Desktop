@@ -1,0 +1,1 @@
+# Este arquivo inicializa o pacote de banco de dados da aplicação.
