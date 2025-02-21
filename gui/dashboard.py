@@ -1,6 +1,29 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QCalendarWidget
 from utils.notifications import show_notification
 from datetime import datetime, timedelta
+
+class DashboardWidget(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.init_ui()
+
+    def init_ui(self):
+        layout = QVBoxLayout()
+        
+        # Título do dashboard
+        title = QLabel("Dashboard - Anime Productivity")
+        layout.addWidget(title)
+
+        # Exemplo: Calendário para visualização de eventos
+        self.calendar = QCalendarWidget()
+        layout.addWidget(self.calendar)
+
+        # Exemplo: Label para estatísticas ou informações adicionais
+        self.stats_label = QLabel("Estatísticas de produtividade")
+        layout.addWidget(self.stats_label)
+        
+        self.setLayout(layout)
 
 class Dashboard(QtWidgets.QWidget):
     def __init__(self):

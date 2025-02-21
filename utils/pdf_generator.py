@@ -2,24 +2,26 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 
-def generate_pdf(report_data, filename):
-    c = canvas.Canvas(filename, pagesize=letter)
+def generate_pdf(file_path: str, title: str, content: str):
+    """
+    Gera um PDF com um template simples contendo elementos temáticos de anime.
+    """
+    c = canvas.Canvas(file_path, pagesize=letter)
     width, height = letter
 
-    # Title
-    c.setFont("Helvetica-Bold", 24)
-    c.drawString(100, height - 50, "Relatório de Produtividade")
-
-    # Draw a line
-    c.setStrokeColor(colors.black)
-    c.line(50, height - 60, width - 50, height - 60)
-
-    # Add report data
+    # Cabeçalho com o título
+    c.setFont("Helvetica-Bold", 20)
+    c.drawCentredString(width / 2, height - 50, title)
+    
+    # Corpo do PDF com o conteúdo
     c.setFont("Helvetica", 12)
-    y_position = height - 80
-    for key, value in report_data.items():
-        c.drawString(100, y_position, f"{key}: {value}")
-        y_position -= 20
-
-    # Save the PDF
+    text_object = c.beginText(50, height - 100)
+    text_object.textLines(content)
+    c.drawText(text_object)
+    
+    # Rodapé temático
+    c.setFont("Helvetica-Oblique", 10)
+    c.drawCentredString(width / 2, 30, "Anime Productivity - Gerado com ReportLab")
+    
+    c.showPage()
     c.save()

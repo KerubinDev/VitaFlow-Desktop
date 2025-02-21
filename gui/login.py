@@ -1,44 +1,48 @@
-from PyQt5 import QtWidgets, QtGui
+from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout, QHBoxLayout
+from PyQt5.QtCore import pyqtSignal
 from utils.authentication import authenticate_user
 
-class Login(QtWidgets.QWidget):
+class LoginWidget(QWidget):
+    # Sinal disparado quando o login é bem-sucedido
+    login_success = pyqtSignal()
+
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Login - Anime Productivity App")
-        self.setGeometry(100, 100, 300, 200)
         self.init_ui()
 
     def init_ui(self):
-        self.layout = QtWidgets.QVBoxLayout()
+        layout = QVBoxLayout()
 
-        self.username_label = QtWidgets.QLabel("Username:")
-        self.layout.addWidget(self.username_label)
+        # Título da tela de login
+        title_label = QLabel("Login - Anime Productivity")
+        layout.addWidget(title_label)
 
-        self.username_input = QtWidgets.QLineEdit()
-        self.layout.addWidget(self.username_input)
+        # Campo para o nome do usuário
+        user_layout = QHBoxLayout()
+        user_label = QLabel("Usuário:")
+        self.user_input = QLineEdit()
+        user_layout.addWidget(user_label)
+        user_layout.addWidget(self.user_input)
+        layout.addLayout(user_layout)
 
-        self.password_label = QtWidgets.QLabel("Password:")
-        self.layout.addWidget(self.password_label)
+        # Campo para a senha
+        pass_layout = QHBoxLayout()
+        pass_label = QLabel("Senha:")
+        self.pass_input = QLineEdit()
+        self.pass_input.setEchoMode(QLineEdit.Password)
+        pass_layout.addWidget(pass_label)
+        pass_layout.addWidget(self.pass_input)
+        layout.addLayout(pass_layout)
 
-        self.password_input = QtWidgets.QLineEdit()
-        self.password_input.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.layout.addWidget(self.password_input)
-
-        self.login_button = QtWidgets.QPushButton("Login")
+        # Botão para efetuar login
+        self.login_button = QPushButton("Entrar")
         self.login_button.clicked.connect(self.handle_login)
-        self.layout.addWidget(self.login_button)
+        layout.addWidget(self.login_button)
 
-        self.error_message = QtWidgets.QLabel("")
-        self.error_message.setStyleSheet("color: red;")
-        self.layout.addWidget(self.error_message)
-
-        self.setLayout(self.layout)
+        self.setLayout(layout)
 
     def handle_login(self):
-        username = self.username_input.text()
-        password = self.password_input.text()
-        if authenticate_user(username, password):
-            self.error_message.setText("Login successful!")
-            # Proceed to the main application window
-        else:
-            self.error_message.setText("Invalid username or password.")
+        # Exemplo simplificado de validação de login.
+        # Em produção, deve-se validar os dados com o banco de dados e usar hash na senha.
+        if self.user_input.text() and self.pass_input.text():
+            self.login_success.emit()

@@ -1,9 +1,15 @@
-from werkzeug.security import generate_password_hash, check_password_hash
+import bcrypt
 
 def hash_password(password: str) -> str:
-    """Gera um hash seguro para a senha fornecida."""
-    return generate_password_hash(password)
+    """
+    Gera um hash para a senha utilizando bcrypt.
+    """
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
+    return hashed.decode('utf-8')
 
-def verify_password(stored_password: str, provided_password: str) -> bool:
-    """Verifica se a senha fornecida corresponde ao hash armazenado."""
-    return check_password_hash(stored_password, provided_password)
+def verify_password(password: str, hashed: str) -> bool:
+    """
+    Verifica se a senha fornecida corresponde ao hash armazenado.
+    """
+    return bcrypt.checkpw(password.encode('utf-8'), hashed.encode('utf-8'))
