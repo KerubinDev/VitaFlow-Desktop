@@ -1,0 +1,32 @@
+QWidget {
+    background-color: #1e1e2f;              /* Fundo escuro */
+    color: #c0c0c0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;  /* Estilo descontraído com toque anime */
+}
+
+QLabel#dashboardTitle,
+QLabel#loginTitle,
+QLabel#settingsTitle {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff6f61;                         /* Cor vibrante para títulos */
+}
+
+QPushButton {
+    background-color: #ff6f61;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    color: #ffffff;
+}
+
+QPushButton:hover {
+    background-color: #ff8f81;
+}
+
+QLineEdit, QComboBox, QListWidget {
+    background-color: #2e2e3f;
+    border: 1px solid #444;
+    border-radius: 4px;
+    padding: 5px;
+}

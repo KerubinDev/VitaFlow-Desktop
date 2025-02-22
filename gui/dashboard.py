@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
-from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QCalendarWidget
+from PyQt5.QtWidgets import QWidget, QLabel, QGridLayout, QCalendarWidget
 from utils.notifications import show_notification
 from datetime import datetime, timedelta
 
@@ -9,57 +9,65 @@ class DashboardWidget(QWidget):
         self.init_ui()
 
     def init_ui(self):
-        layout = QVBoxLayout()
+        # Utiliza QGridLayout para melhor responsividade
+        grid = QGridLayout()
         
-        # Título do dashboard
+        # Título centralizado
         title = QLabel("Dashboard - Anime Productivity")
-        layout.addWidget(title)
+        title.setObjectName("dashboardTitle")
+        title.setAlignment(QtCore.Qt.AlignCenter)
+        grid.addWidget(title, 0, 0, 1, 2)
 
-        # Exemplo: Calendário para visualização de eventos
+        # Calendário
         self.calendar = QCalendarWidget()
-        layout.addWidget(self.calendar)
+        grid.addWidget(self.calendar, 1, 0)
 
-        # Exemplo: Label para estatísticas ou informações adicionais
+        # Estatísticas
         self.stats_label = QLabel("Estatísticas de produtividade")
-        layout.addWidget(self.stats_label)
-        
-        self.setLayout(layout)
+        grid.addWidget(self.stats_label, 1, 1)
+
+        self.setLayout(grid)
 
 class Dashboard(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Dashboard - Anime Productivity App")
-        self.setGeometry(100, 100, 800, 600)
+        self.setGeometry(100, 100, 1024, 768)
         self.init_ui()
         self.pomodoro_timer = None
         self.is_timer_running = False
 
     def init_ui(self):
-        layout = QtWidgets.QVBoxLayout()
+        # Layout responsivo com QGridLayout
+        grid = QtWidgets.QGridLayout()
 
+        # Calendário posicionado à esquerda
         self.calendar = QtWidgets.QCalendarWidget(self)
-        layout.addWidget(self.calendar)
+        grid.addWidget(self.calendar, 0, 0, 2, 1)
 
+        # Lista de tarefas à direita (parte superior)
         self.task_list = QtWidgets.QListWidget(self)
-        layout.addWidget(self.task_list)
+        grid.addWidget(self.task_list, 0, 1)
 
+        # Controles Pomodoro na parte inferior direita
+        pomodoro_layout = QtWidgets.QVBoxLayout()
         self.start_timer_button = QtWidgets.QPushButton("Iniciar Pomodoro", self)
         self.start_timer_button.clicked.connect(self.start_pomodoro)
-        layout.addWidget(self.start_timer_button)
-
+        pomodoro_layout.addWidget(self.start_timer_button)
         self.timer_label = QtWidgets.QLabel("Tempo restante: 25:00", self)
-        layout.addWidget(self.timer_label)
+        pomodoro_layout.addWidget(self.timer_label)
+        grid.addLayout(pomodoro_layout, 1, 1)
 
-        self.setLayout(layout)
+        self.setLayout(grid)
 
     def start_pomodoro(self):
         if not self.is_timer_running:
             self.is_timer_running = True
-            self.remaining_time = 25 * 60  # 25 minutes in seconds
+            self.remaining_time = 25 * 60  # 25 minutos
             self.update_timer()
             self.pomodoro_timer = QtCore.QTimer(self)
             self.pomodoro_timer.timeout.connect(self.update_timer)
-            self.pomodoro_timer.start(1000)  # Update every second
+            self.pomodoro_timer.start(1000)  # Atualiza a cada segundo
 
     def update_timer(self):
         if self.remaining_time > 0:

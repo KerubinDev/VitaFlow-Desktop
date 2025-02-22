@@ -8,8 +8,11 @@ def send_notification(title: str, message: str):
         title=title,
         message=message,
         app_name="Anime Productivity",
-        timeout=10  # Duração em segundos da notificação
+        timeout=10  # Duração da notificação em segundos
     )
+
+# Adiciona um alias para compatibilidade
+show_notification = send_notification
 
 def notify_pomodoro_start():
     send_notification("Pomodoro Iniciado", "Vamos lá! Foco, dattebayo!")

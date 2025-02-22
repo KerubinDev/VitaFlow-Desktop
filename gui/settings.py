@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QVBoxLayout
+from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QVBoxLayout, QPushButton, QHBoxLayout
 
 class Settings:
     def __init__(self):
@@ -26,17 +26,23 @@ class SettingsWidget(QWidget):
         self.init_ui()
     
     def init_ui(self):
+        self.setObjectName("settingsWidget")
         layout = QVBoxLayout()
-        
-        # Título das configurações
+
         title = QLabel("Configurações")
+        title.setObjectName("settingsTitle")
         layout.addWidget(title)
 
-        # Exemplo: Opção para seleção de tema
+        # Seleção de tema com layout horizontal
+        theme_layout = QHBoxLayout()
         theme_label = QLabel("Selecione o tema:")
-        layout.addWidget(theme_label)
         self.theme_combo = QComboBox()
         self.theme_combo.addItems(["dark", "light"])
-        layout.addWidget(self.theme_combo)
+        theme_layout.addWidget(theme_label)
+        theme_layout.addWidget(self.theme_combo)
+        layout.addLayout(theme_layout)
+
+        self.save_button = QPushButton("Salvar Configurações")
+        layout.addWidget(self.save_button)
 
         self.setLayout(layout)

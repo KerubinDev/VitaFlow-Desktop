@@ -1,11 +1,13 @@
 PyQt5
 google-api-python-client
+google-auth
+google-auth-oauthlib
 plyer
-ReportLab
+reportlab
 PyFPDF
 bcrypt
-sqlite3
 mysql-connector-python
+sqlite3
 threading
 datetime
 logging
